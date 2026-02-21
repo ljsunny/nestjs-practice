@@ -1,0 +1,55 @@
+# compiled output
+/dist
+/build
+
+# dependencies
+/node_modules
+
+# logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# test coverage
+/coverage
+/.nyc_output
+
+# IDEs
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# env files
+.env
+.env.*
+!.env.example
+
+# temp
+.temp
+.tmp
+
+# runtime
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# diagnostic reports
+report.*.json
