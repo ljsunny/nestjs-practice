@@ -22,7 +22,10 @@ export class AdminService {
       throw new UnauthorizedException();
     }
   
-    const payload = { email };
+    const payload = {
+      email,
+      role: 'ADMIN',
+    };
   
     return {
       access_token: this.jwtService.sign(payload),
