@@ -1,3 +1,4 @@
+import { PrismaModule } from './../prisma/prisma.module';
 import { JwtStrategy } from './jwt.strategy';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
@@ -7,6 +8,7 @@ import { AdminService } from './admin.service';
 
 @Module({
   imports: [
+    PrismaModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

@@ -1,32 +1,36 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AdminService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async login(email: string, password: string) {
-    if (email !== process.env.ADMIN_EMAIL) {
-      throw new UnauthorizedException();
+    const admin = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!admin) {
+      throw new UnauthorizedException('Invalid credentials');
     }
-  
-    const hash = process.env.ADMIN_PASSWORD;
-    if (!hash) {
-      throw new Error('ADMIN_PASSWORD_HASH not set');
-    }
-  
-    const isMatch = await bcrypt.compare(password, hash);
-  
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
     if (!isMatch) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid credentials');
     }
-  
+
     const payload = {
-      email,
+      sub: admin.id,
+      email: admin.email,
       role: 'ADMIN',
     };
-  
+
     return {
       access_token: this.jwtService.sign(payload),
     };
